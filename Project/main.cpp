@@ -1,3 +1,5 @@
+//Justin Yun
+
 #include "mainwindow.h"
 #include "player_stats.h"
 #include "function.h"

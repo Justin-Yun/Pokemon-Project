@@ -1,3 +1,7 @@
+//Justin Yun
+//CSCI 3010
+//Final Project
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -29,7 +33,7 @@ public:
 
     static int player_mode; //Which player mode the player chose
 
-    static int option_turn;
+    static int option_turn; //Keeps track of player's turn during 2 player mode
 
 
     //stats for players
@@ -39,8 +43,9 @@ public:
     static int player2_pp;
     static int player1_money;
     static int player2_money;
-    static int player1_win;
-    static int player2_win;
+
+    static int player1_win; //Amount of Wins for player 1
+    static int player2_win; //Amount of wins for player 2
 
 
     //Position for both players
@@ -49,14 +54,14 @@ public:
     static int player2_row;
     static int player2_col;
 
-    void createGraph();
+    void createGraph(); //Creates board for the money graph
     void grapher(); //Win Graph
-    void player1_moneyMove(int row, int column);
-    void player2_moneyMove(int row, int column);
-    void win1();
-    void win2();
-    void cpu1_moves();
-    void cpu2_moves();
+    void player1_moneyMove(int row, int column); //Updates position and money for player 1
+    void player2_moneyMove(int row, int column); //Updates position and money for player 2
+    void win1(); //Reset function if player 1 wins
+    void win2(); //Reset function if player 2 wins
+    void cpu1_moves(); //Moveset for CPU 1
+    void cpu2_moves(); //Moveset for CPU 2
 
     virtual void paintEvent(QPaintEvent *event);
 

@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     graph->setEditTriggers(QAbstractItemView::NoEditTriggers); //Makes table uneditable
 
     connect(graph, SIGNAL(cellClicked(int,int)), this, SLOT(on_cellWidget_cellClicked(int,int)));
-    createGraph();
+    createGraph();//Creates money graph
     ui->notification_label->setText("Click on the help \nbutton for instructions!");
 }
 
@@ -94,30 +94,31 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_attack_button_clicked()
 {
-    if(player_mode == 0)
+    if(player_mode == 0) //Player did not select mode
     {
         qDebug() << "Player mode NOT selected.";
         ui->notification_label->setText("Please select Player Mode.");
     }
 
-    else if(player_mode == 2)
+    else if(player_mode == 2) //Player selected 2 player mode
     {
-        if(option_turn%2 == 0)
+        if(option_turn%2 == 0) //First player's turn
         {
-            player2_hp = player2_hp - player1_pp;
+            player2_hp = player2_hp - player1_pp; //Update health
             qDebug() << "Player 2 HP:";
             qDebug() << player2_hp;
-            std::string hp_label = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label.c_str()));
+            std::string hp_label = std::to_string(player2_hp); //Convert integer to string
+            ui->player2_hp_label->setText(QString(hp_label.c_str())); //Update player 2's HP
 
-            option_turn++;
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-            ui->player_turn_label->setText(QString("Player 2"));
+            option_turn++; //Increment turn
+            std::string option_count_lab = std::to_string(option_turn); //Convert integer to string
+            ui->option_count_label->setText(QString(option_count_lab.c_str())); //Update turn count label
+            ui->player_turn_label->setText(QString("Player 2")); //Update to the next player's turn label
 
         }
         else
         {
+            //Exact same function from above, but player 1's stats are updated
             player1_hp = player1_hp - player2_pp;
             qDebug() << "Player 1 HP:";
             qDebug() << player1_hp;
@@ -131,13 +132,13 @@ void MainWindow::on_attack_button_clicked()
 
         }
 
-        if(player1_hp <= 0)
+        if(player1_hp <= 0) //If player's 1 hp is 0 or less
         {
-            win2();
+            win2(); //Function that updatess player's 2 win count and resets the game
         }
         else if (player2_hp <= 0)
         {
-            win1();
+            win1(); //Function that updates player 1's win count and resets the game
         }
 
         else {
@@ -145,31 +146,31 @@ void MainWindow::on_attack_button_clicked()
         }
     }
 
-    else if(player_mode == 1)
+    else if(player_mode == 1) //If user chooses 1 player mode
     {
-        player2_hp = player2_hp - player1_pp;
+        player2_hp = player2_hp - player1_pp; //Update HP
         qDebug() << "Player 2 HP:";
         qDebug() << player2_hp;
         std::string hp_label = std::to_string(player2_hp);
-        ui->player2_hp_label->setText(QString(hp_label.c_str()));
+        ui->player2_hp_label->setText(QString(hp_label.c_str())); //Update label
 
-        cpu2_moves();
+        cpu2_moves(); //Function that chooses what the CPU will do.
 
-        option_turn++;
+        option_turn++; //Increment turn count
         std::string option_count_lab = std::to_string(option_turn);
-        ui->option_count_label->setText(QString(option_count_lab.c_str()));
+        ui->option_count_label->setText(QString(option_count_lab.c_str())); //Update label
 
-        CPU::cpu_move++;
+        CPU::cpu_move++; //Increment CPU move
 
 
         if (player2_hp <= 0)
         {
-            win1();
+            win1(); //Function that updatess player's 2 win count and resets the game
         }
 
         else if(player1_hp <= 0)
         {
-            win2();
+            win2();//Function that updatess player's 1 win count and resets the game
         }
 
         else {
@@ -181,13 +182,13 @@ void MainWindow::on_attack_button_clicked()
 
 void MainWindow::on_upgrade_hp_button_clicked()
 {
-    if(player_mode == 0)
+    if(player_mode == 0) //If player doesn't choose a mode
     {
         qDebug() << "Player mode NOT selected.";
         ui->notification_label->setText("Please select Player Mode.");
     }
 
-    else if(player_mode == 2)
+    else if(player_mode == 2) //User chooses player mode
     {
         if(option_turn%2 == 0) //Player 1's Turn
         {
@@ -197,14 +198,14 @@ void MainWindow::on_upgrade_hp_button_clicked()
                 player1_money = player1_money - 250; //Update player's money
                 player1_hp = player1_hp + 50; //Update player's hp
                 std::string hp_label = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label.c_str()));
+                ui->player1_hp_label->setText(QString(hp_label.c_str())); //Update label
                 std::string money_label = std::to_string(player1_money);
-                ui->player1_money_label->setText(QString(money_label.c_str()));
+                ui->player1_money_label->setText(QString(money_label.c_str())); //Update label
 
-                option_turn++;
+                option_turn++; //Increment turn count
                 std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 2"));
+                ui->option_count_label->setText(QString(option_count_lab.c_str())); //Update label
+                ui->player_turn_label->setText(QString("Player 2")); //Update label
             }
             else{
                 qDebug() << "Insufficient Funds.";
@@ -214,14 +215,14 @@ void MainWindow::on_upgrade_hp_button_clicked()
         }
         else
         {
-            if((player2_money-250) >= 0)
+            if((player2_money-250) >= 0) //If the player has enough money to buy the upgrade
             {
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
+                player2_money = player2_money - 250; //Update money
+                player2_hp = player2_hp + 50; //Update HP
                 std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
+                ui->player2_hp_label->setText(QString(hp_label.c_str())); //Update label
                 std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
+                ui->player2_money_label->setText(QString(money_label.c_str())); //Update label
 
                 option_turn++;
                 std::string option_count_lab = std::to_string(option_turn);
@@ -295,7 +296,7 @@ void MainWindow::on_lower_pp_button_clicked()
             if((player1_money-300) >= 0) //If the player has the funds to purchase the upgrade
             {
                 player1_money = player1_money - 300; //Update player's money
-                player2_pp = player2_pp - 50; //Update player's hp
+                player2_pp = player2_pp - 50; //Update other player's pp
                 std::string pp_label = std::to_string(player2_pp);
                 ui->player2_pp_label->setText(QString(pp_label.c_str()));
                 std::string money_label = std::to_string(player1_money);
@@ -314,10 +315,10 @@ void MainWindow::on_lower_pp_button_clicked()
         }
         else
         {
-            if((player2_money-300) >= 0)
+            if((player2_money-300) >= 0) //If player 2 has enough money to purchase upgrade
             {
                 player2_money = player2_money - 300;
-                player1_pp = player1_pp - 50;
+                player1_pp = player1_pp - 50; //Update other player's pp
                 std::string pp_label = std::to_string(player1_pp);
                 ui->player1_pp_label->setText(QString(pp_label.c_str()));
                 std::string money_label = std::to_string(player2_money);
@@ -336,7 +337,7 @@ void MainWindow::on_lower_pp_button_clicked()
         }
     }
 
-    else if(player_mode == 1)
+    else if(player_mode == 1) //If user chooses one player mode
     {
         if((player1_money-300) >= 0) //If the player has the funds to purchase the upgrade
         {
@@ -411,10 +412,10 @@ void MainWindow::on_upgrade_pp_button_clicked()
         }
         else
         {
-            if((player2_money-250) >= 0)
+            if((player2_money-250) >= 0) //If user has enough money to buy upgrade
             {
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
+                player2_money = player2_money - 250; //Update money
+                player2_pp = player2_pp + 50; //Update pp
                 std::string pp_label = std::to_string(player2_pp);
                 ui->player2_pp_label->setText(QString(pp_label.c_str()));
                 std::string money_label = std::to_string(player2_money);
@@ -434,7 +435,7 @@ void MainWindow::on_upgrade_pp_button_clicked()
         }
     }
 
-    else if(player_mode == 1)
+    else if(player_mode == 1) //If user chooses 1 player mode
     {
         if((player1_money-250) >= 0) //If the player has the funds to purchase the upgrade
         {
@@ -490,7 +491,7 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
         ui->notification_label->setText("Please select Player Mode.");
     }
 
-    else if(player_mode == 2)
+    else if(player_mode == 2) //Player 2 mode
     {
         qDebug() << "Pressed Cell";
         qDebug() << "Row, Column";
@@ -651,31 +652,31 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
 
                 }
 
-                else if(row == (player1_row) && (column == (player1_col+1))) //Diagonal
+                else if(row == (player1_row) && (column == (player1_col+1))) //Right
                 {
                     player1_moneyMove(row, column);
 
 
                 }
-                else if(row == (player1_row-1) && (column == (player1_col+1))) //Diagonal
+                else if(row == (player1_row-1) && (column == (player1_col+1))) //Top Right
                 {
                     player1_moneyMove(row, column);
 
 
                 }
-                else if(row == (player1_row+1) && (column == (player1_col+1))) //Diagonal
+                else if(row == (player1_row+1) && (column == (player1_col+1))) //Bottom Right
                 {
                     player1_moneyMove(row, column);
 
                 }
 
-                else if(row == (player1_row-1) && (column == (player1_col))) //Diagonal
+                else if(row == (player1_row-1) && (column == (player1_col))) //Up
                 {
                     player1_moneyMove(row, column);
 
 
                 }
-                else if(row == (player1_row+1) && (column == (player1_col))) //Diagonal
+                else if(row == (player1_row+1) && (column == (player1_col))) //Down
                 {
                     player1_moneyMove(row, column);
 
@@ -715,7 +716,7 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
 
                 }
 
-                else if(row == (player1_row+1) && (column == (player1_col))) //Bottom
+                else if(row == (player1_row+1) && (column == (player1_col))) //Down
                 {
                     player1_moneyMove(row, column);
 
@@ -760,7 +761,7 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
 
                 }
 
-                else if(row == (player1_row-1) && (column == (player1_col))) //Bottom
+                else if(row == (player1_row-1) && (column == (player1_col))) //Up
                 {
                     player1_moneyMove(row, column);
 
@@ -1714,7 +1715,7 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
     }
 }
 
-void MainWindow::on_cpu_mode_label_clicked()
+void MainWindow::on_cpu_mode_label_clicked() //CPU only mode
 {
     player_mode = 3;
     qDebug() << "CPU Only";
@@ -1724,14 +1725,14 @@ void MainWindow::on_cpu_mode_label_clicked()
 }
 
 
-void MainWindow::on_player1_mode_button_clicked()
+void MainWindow::on_player1_mode_button_clicked() //1 Player mode
 {
     player_mode = 1;
     qDebug() << "1 Player";
 
 }
 
-void MainWindow::on_player2_mode_label_clicked()
+void MainWindow::on_player2_mode_label_clicked() //2 Player Mode
 {
     player_mode = 2;
     qDebug() << "2 Player";
@@ -1739,7 +1740,7 @@ void MainWindow::on_player2_mode_label_clicked()
 }
 
 
-void MainWindow::on_help_button_clicked()
+void MainWindow::on_help_button_clicked() //Button that contains instruction for the game
 {
     QString instruction = "Welcome! \n\nThe objective of the game is to get the other player's HP to zero.\n";
     QString instruction2 = "\n\nFirst, choose the player mode (1 Player, 2 Player, etc.). \n\nThen, you will have 5 total options to choose from (Attack, Upgrade HP/PP, Lower PP, and clicking on the grid to earn money.";
@@ -1747,27 +1748,28 @@ void MainWindow::on_help_button_clicked()
     QString moving_instruction = "\n\nFor moving on the grid, player's can only move on a space that is one space away from their current position.";
     QString instruction4 = "\n\nAttacking will lower the other player's HP. \nPurchasing Upgrading HP/PP will increase the player's specified stats. \nPurchasing the Lower PP will lower the other player's PP.";
     QString instruction5 = "\n\nThe top-left corner displays the current player's turn and the bottom-right corner displays the amount of wins.";
-    QMessageBox::about(this, "Help", instruction+instruction2+instruction3+moving_instruction+instruction4+instruction5);
+    QMessageBox::about(this, "Help", instruction+instruction2+instruction3+moving_instruction+instruction4+instruction5); //Creates pop-up box
 
 }
 
-void MainWindow::on_step_button_clicked()
+void MainWindow::on_step_button_clicked() //Steps for the CPU mode
 {
-    if(player_mode == 3)
+    if(player_mode == 3) //User chooses only CPU mode
     {
         ui->notification_label->setText("Step Button Pressed.");
 
-        cpu1_moves();
-        cpu2_moves();
+        cpu1_moves();//Calls CPU 1 moveset
+        cpu2_moves(); //Calls CPU 2 moveset
 
-        option_turn++;
+        option_turn++; //Increment turn
         std::string option_count_lab = std::to_string(option_turn);
-        ui->option_count_label->setText(QString(option_count_lab.c_str()));
-        CPU::cpu_move++;
+        ui->option_count_label->setText(QString(option_count_lab.c_str())); //Update label
+        CPU::cpu_move++; //Update cpu move counter
 
+        //Condition that checks if either player has zero or less hp
         if (player2_hp <= 0)
         {
-            win1();
+            win1();//Function that increments the win and resets the game
         }
 
         else if(player1_hp <= 0)
@@ -1793,7 +1795,7 @@ void MainWindow::createGraph()
     QColor colorLive1(Qt::yellow);
     QColor colorLive2(Qt::red);
     //Fill in Column
-    for(int i = 0; i < row; i++)
+    for(int i = 0; i < row; i++) //Loop that increments by row, then columns
     {
         for(int j = 0; j < column; j++)
         {
@@ -1801,19 +1803,20 @@ void MainWindow::createGraph()
             if((i == 5) && (j == 0)) //Assign player 1
             {
                 graph->setItem(i, j, new QTableWidgetItem);
-                graph->item(i,j)->setText("Player One");
-                graph->item(i,j)->setBackgroundColor(colorLive1);
+                graph->item(i,j)->setText("Player One"); //Set the bottom left corner for the player 1
+                graph->item(i,j)->setBackgroundColor(colorLive1); //Sets color of player 1
             }
 
             else if((i == 0) && (j == 5)) //Assign player 2
             {
                 graph->setItem(i, j, new QTableWidgetItem);
-                graph->item(i,j)->setText("Player Two");
-                graph->item(i,j)->setBackgroundColor(colorLive2);
+                graph->item(i,j)->setText("Player Two"); //Sets the top right corner for player 2
+                graph->item(i,j)->setBackgroundColor(colorLive2); //Sets color of player 2
             }
 
             else //Assign money
             {
+                //Conditions that randomly assign each cell a random amount of money
                 if(rand_start < 40)
                 {
                     graph->setItem(i, j, new QTableWidgetItem);
@@ -1844,19 +1847,19 @@ void MainWindow::grapher()
     QBrush redBrush(Qt::red);
     QBrush yellowBrush(Qt::yellow);
     QPen blackPen(Qt::black);
-    int ply1_height = 380-player1_win*20;
+    int ply1_height = 380-player1_win*20; //Scale for the height of the cell
     int ply2_height = 380-player2_win*20;
 
-    if(player1_win >= 20)
+    if(player1_win >= 20) //Condition that prevents the graph height from bugging out
     {
         ply1_height = 0;
     }
-    else if(player2_win >= 20)
+    else if(player2_win >= 20) //Condition that prevents the graph's height from bugging out
     {
         ply2_height = 0;
     }
 
-    else if((player1_win >= 20) && (player2_win >= 20))
+    else if((player1_win >= 20) && (player2_win >= 20)) //Condition that prevents the graph's height from bugging out
     {
         ply1_height = 0;
         ply2_height = 0;
@@ -1865,15 +1868,15 @@ void MainWindow::grapher()
     QGraphicsView *view = ui->graphicsView;
     scene = new QGraphicsScene;
     view->setScene(scene);
-    view->setSceneRect(0,0,view->frameSize().width(),view->frameSize().height());
+    view->setSceneRect(0,0,view->frameSize().width(),view->frameSize().height()); //Intialize scene size
 
-    blackPen.setWidth(1);
+    blackPen.setWidth(1); //set width
     //Scale rectange by adjusting the height each time a player wins.
-    rectangle = scene->addRect(0, ply1_height,65, 380,blackPen, yellowBrush);
-    rectangle2 = scene->addRect(65, ply2_height,65, 380,blackPen, redBrush);
+    rectangle = scene->addRect(0, ply1_height,65, 380,blackPen, yellowBrush); //First player win height
+    rectangle2 = scene->addRect(65, ply2_height,65, 380,blackPen, redBrush); //Second player win height
 
 
-    view->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+    view->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff ); //Disable scrollbar
     view->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
 
 }
@@ -1882,28 +1885,29 @@ void MainWindow::player1_moneyMove(int row, int column)
 {
     QColor colorLive1(Qt::yellow);
     QColor colorLive2(Qt::red);
-    QString money = graph->item(row,column)->text();
-    QString new_money = money.right(2);
+    QString money = graph->item(row,column)->text(); //Grab string for cell
+    QString new_money = money.right(2); //Gets the money value as a string
     qDebug() << new_money;
-    int final_money = new_money.toInt();
+    int final_money = new_money.toInt(); //Convert the string into a integer
     qDebug() << final_money;
 
-    player1_money = player1_money + final_money;
+    player1_money = player1_money + final_money; //Update money
     std::string money_label = std::to_string(player1_money);
-    ui->player1_money_label->setText(QString(money_label.c_str()));
+    ui->player1_money_label->setText(QString(money_label.c_str())); //Update label
 
     //Update Player's Position
-    graph->item(player1_row, player1_col)->setText("");
-    graph->item(player1_row,player1_col)->setBackgroundColor("white");
-    player1_row = row;
-    player1_col = column;
-    graph->item(player1_row, player1_col)->setText("Player One");
-    graph->item(player1_row,player1_col)->setBackgroundColor(colorLive1);
-    ui->notification_label->setText(QString("Successfully Moved."));
+    graph->item(player1_row, player1_col)->setText(""); //Leaves previous location blank
+    graph->item(player1_row,player1_col)->setBackgroundColor("white"); //Changes the previous location space to white
+    player1_row = row; //Update row to current position
+    player1_col = column; //Update column to current position
+    graph->item(player1_row, player1_col)->setText("Player One"); //Update new cell with player 1 location
+    graph->item(player1_row,player1_col)->setBackgroundColor(colorLive1); //Update new player's color in updated position
+    ui->notification_label->setText(QString("Successfully Moved.")); //Lets the user know the move was successful by updating the label
 }
 
 void MainWindow::player2_moneyMove(int row, int column)
 {
+    //Same functionality as the last part, but this code is focused on player 2.
     QColor colorLive1(Qt::yellow);
     QColor colorLive2(Qt::red);
     QString money = graph->item(row,column)->text();
@@ -1929,28 +1933,28 @@ void MainWindow::player2_moneyMove(int row, int column)
 void MainWindow::cpu1_moves()
 {
     // Player 1 CPU Moves
-    if(player1_money-250 >= 0)
+    if(player1_money-250 >= 0) //If the user has enough money to purchase upgrades
     {
         int choice_random = rand() % 100 + 1;
         qDebug() << choice_random;
         if(choice_random <= 33) //Upgrade HP
         {
             qDebug() << "CPU Upgrade HP";
-            player1_money = player1_money - 250;
-            player1_hp = player1_hp + 50;
+            player1_money = player1_money - 250; //Update money
+            player1_hp = player1_hp + 50; //Update hp
             std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
+            ui->player1_hp_label->setText(QString(hp_label.c_str())); //Update label
             std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
+            ui->player1_money_label->setText(QString(money_label.c_str())); //Update label
             std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
+            ui->option_count_label->setText(QString(option_count_lab.c_str())); //Update label
         }
 
         else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
         {
             qDebug() << "CPU Upgrade PP";
-            player1_money = player1_money - 250;
-            player1_pp = player1_pp + 50;
+            player1_money = player1_money - 250; //Update money
+            player1_pp = player1_pp + 50; //Update pp
             std::string pp_label = std::to_string(player1_pp);
             ui->player1_pp_label->setText(QString(pp_label.c_str()));
             std::string money_label = std::to_string(player1_money);
@@ -1962,7 +1966,7 @@ void MainWindow::cpu1_moves()
         else //Attack
         {
             qDebug() << "CPU Attack";
-            player2_hp = player2_hp - player1_pp;
+            player2_hp = player2_hp - player1_pp; //Update other player's HP
             qDebug() << player2_hp;
             std::string hp_label2 = std::to_string(player2_hp);
             ui->player2_hp_label->setText(QString(hp_label2.c_str()));
@@ -1972,7 +1976,7 @@ void MainWindow::cpu1_moves()
     else //Attack
     {
         qDebug() << "CPU Attack";
-        player2_hp = player2_hp - player1_pp;
+        player2_hp = player2_hp - player1_pp; //Update other player's HP
         qDebug() << player2_hp;
         std::string hp_label2 = std::to_string(player2_hp);
         ui->player2_hp_label->setText(QString(hp_label2.c_str()));
@@ -1981,6 +1985,7 @@ void MainWindow::cpu1_moves()
 
 void MainWindow::cpu2_moves()
 {
+    //Same functionality as the last function above, but this is focused for player 2 (CPU 2)
     //Player 2 CPU Moves
     if(player2_money-250 >= 0)
     {
@@ -2037,10 +2042,10 @@ void MainWindow::cpu2_moves()
 void MainWindow::win1()
 {
     qDebug() << "Player 1 Wins";
-    player1_win++;
+    player1_win++; //Increment amount of wins for player 1
     std::string win_lab = std::to_string(player1_win);
-    ui->player1_win_label->setText(QString(win_lab.c_str()));
-    ui->notification_label->setText(QString("Player 1 Won"));
+    ui->player1_win_label->setText(QString(win_lab.c_str())); //Update label
+    ui->notification_label->setText(QString("Player 1 Won")); //Updates the notification label
 
     //Restart Stats
     player1_hp = 500;
@@ -2052,6 +2057,7 @@ void MainWindow::win1()
     player2_money = 500;
     option_turn = 0;
 
+    //Reset position
     player1_row = 5;
     player1_col = 0;
     player2_row = 0;
@@ -2060,6 +2066,7 @@ void MainWindow::win1()
     QColor colorLive1(Qt::yellow);
     QColor colorLive2(Qt::red);
 
+    //Same code from creating the money cell graph
     //Fill in Column
     for(int i = 0; i < row; i++)
     {
@@ -2082,6 +2089,7 @@ void MainWindow::win1()
 
             else //Assign money
             {
+                //Assigns each cell with a certain amount of money that is determined by a random number
                 if(rand_start < 40)
                 {
                     graph->setItem(i, j, new QTableWidgetItem);
@@ -2132,6 +2140,7 @@ void MainWindow::win1()
 
 void MainWindow::win2()
 {
+    //Same function as the code above, but it is focused on the second player
     qDebug() <<"Player 2 Wins";
     player2_win++;
     std::string win_lab = std::to_string(player2_win);
