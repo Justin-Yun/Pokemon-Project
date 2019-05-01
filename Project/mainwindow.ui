@@ -35,6 +35,9 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QPushButton" name="attack_button">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 71, 74)</string>
+       </property>
        <property name="text">
         <string>Attack</string>
        </property>
@@ -42,6 +45,9 @@
      </item>
      <item row="0" column="1">
       <widget class="QPushButton" name="lower_pp_button">
+       <property name="styleSheet">
+        <string notr="true">background-color: lightblue</string>
+       </property>
        <property name="text">
         <string>Lower PP ($300)</string>
        </property>
@@ -49,6 +55,9 @@
      </item>
      <item row="1" column="0">
       <widget class="QPushButton" name="upgrade_hp_button">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(8, 255, 107)</string>
+       </property>
        <property name="text">
         <string>Upgrade HP ($250)</string>
        </property>
@@ -56,6 +65,9 @@
      </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="upgrade_pp_button">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(225, 207, 255)</string>
+       </property>
        <property name="text">
         <string>Upgrade PP ($250)</string>
        </property>
@@ -102,6 +114,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
+       </property>
        <property name="text">
         <string>Turn Count:  </string>
        </property>
@@ -115,6 +130,9 @@
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
        </property>
        <property name="text">
         <string>0</string>
@@ -144,6 +162,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
+       </property>
        <property name="text">
         <string>Turn:</string>
        </property>
@@ -157,6 +178,9 @@
          <weight>50</weight>
          <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
        </property>
        <property name="text">
         <string>Player 1</string>
@@ -181,6 +205,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
+    </property>
     <property name="text">
      <string>Player 2 Stats</string>
     </property>
@@ -201,8 +228,14 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
+    </property>
     <property name="text">
      <string>Player 1 Stats</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="player2_hp_label">
@@ -218,6 +251,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
     </property>
     <property name="text">
      <string>500</string>
@@ -237,6 +273,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
+    </property>
     <property name="text">
      <string>HP: </string>
     </property>
@@ -254,6 +293,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
     </property>
     <property name="text">
      <string>500</string>
@@ -273,8 +315,14 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
+    </property>
     <property name="text">
      <string>HP: </string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="player2_pp_label">
@@ -290,6 +338,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
     </property>
     <property name="text">
      <string>50</string>
@@ -309,6 +360,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
+    </property>
     <property name="text">
      <string>PP:</string>
     </property>
@@ -326,6 +380,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
     </property>
     <property name="text">
      <string>PP:</string>
@@ -345,6 +402,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
+    </property>
     <property name="text">
      <string>50</string>
     </property>
@@ -362,6 +422,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
     </property>
     <property name="text">
      <string>Money:</string>
@@ -381,6 +444,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 121, 121)</string>
+    </property>
     <property name="text">
      <string>500</string>
     </property>
@@ -398,6 +464,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
     </property>
     <property name="text">
      <string>500</string>
@@ -417,6 +486,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:yellow</string>
+    </property>
     <property name="text">
      <string>Money:</string>
     </property>
@@ -424,9 +496,9 @@
    <widget class="QLabel" name="win_graph_header">
     <property name="geometry">
      <rect>
-      <x>945</x>
-      <y>0</y>
-      <width>131</width>
+      <x>930</x>
+      <y>10</y>
+      <width>130</width>
       <height>21</height>
      </rect>
     </property>
@@ -437,8 +509,14 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(85, 255, 255)</string>
+    </property>
     <property name="text">
      <string>Win Graph</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -460,13 +538,22 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
-        <string>     Mode</string>
+        <string>Mode</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="cpu_mode_label">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
         <string>CPU</string>
        </property>
@@ -474,6 +561,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="player1_mode_button">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
         <string>1 Player</string>
        </property>
@@ -481,6 +571,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="player2_mode_label">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
         <string>2 Player</string>
        </property>
@@ -504,6 +597,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(170, 170, 255)</string>
+    </property>
     <property name="text">
      <string>Help</string>
     </property>
@@ -523,6 +619,9 @@
       <height>380</height>
      </size>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_16">
     <property name="geometry">
@@ -530,7 +629,7 @@
       <x>910</x>
       <y>470</y>
       <width>181</width>
-      <height>20</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -540,8 +639,14 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(85, 170, 255)</string>
+    </property>
     <property name="text">
-     <string>            Options</string>
+     <string>Options</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -569,6 +674,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
+       </property>
        <property name="text">
         <string>Notification:</string>
        </property>
@@ -587,6 +695,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(196, 255, 220)</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -597,9 +708,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>70</y>
-      <width>108</width>
+      <x>1070</x>
+      <y>50</y>
+      <width>123</width>
       <height>94</height>
      </rect>
     </property>
@@ -613,6 +724,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(85, 255, 255)</string>
+       </property>
        <property name="text">
         <string>Wins</string>
        </property>
@@ -624,6 +738,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:yellow</string>
        </property>
        <property name="text">
         <string>Player 1: </string>
@@ -637,6 +754,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:yellow</string>
+       </property>
        <property name="text">
         <string>0</string>
        </property>
@@ -648,6 +768,9 @@
         <font>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 121, 121)</string>
        </property>
        <property name="text">
         <string>Player 2: </string>
@@ -661,8 +784,27 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 121, 121)</string>
+       </property>
        <property name="text">
         <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_17">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(85, 255, 255)</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -680,15 +822,27 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">background-color:yellow</string>
+       </property>
        <property name="text">
         <string> Player 1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 121, 121)</string>
+       </property>
        <property name="text">
         <string> Player 2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -719,13 +873,22 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
         <string>CPU Mode Only</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="step_button">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255)</string>
+       </property>
        <property name="text">
         <string>Step</string>
        </property>

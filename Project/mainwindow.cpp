@@ -1,3 +1,7 @@
+//Justin Yun
+//CSCI 3010
+//Final Project
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "function.h"
@@ -68,8 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() << "Program Started";
     srand(time(0));
 
-    QTableWidget *view = ui->cellWidget;
-
     graph = new QTableWidget(row, column,this); //Set Table
     graph->horizontalHeader()->setDefaultSectionSize(60); //Width of cells
     graph->verticalHeader()->setDefaultSectionSize(60); //Heights of cells
@@ -80,59 +82,8 @@ MainWindow::MainWindow(QWidget *parent) :
     graph->setEditTriggers(QAbstractItemView::NoEditTriggers); //Makes table uneditable
 
     connect(graph, SIGNAL(cellClicked(int,int)), this, SLOT(on_cellWidget_cellClicked(int,int)));
-
-    QColor colorLive1(Qt::yellow);
-    QColor colorLive2(Qt::red);
-
-    //Fill in Column
-    for(int i = 0; i < row; i++)
-    {
-        for(int j = 0; j < column; j++)
-        {
-            int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-            if((i == 5) && (j == 0)) //Assign player 1
-            {
-                graph->setItem(i, j, new QTableWidgetItem);
-                graph->item(i,j)->setText("Player One");
-                graph->item(i,j)->setBackgroundColor(colorLive1);
-            }
-
-            else if((i == 0) && (j == 5)) //Assign player 2
-            {
-                graph->setItem(i, j, new QTableWidgetItem);
-                graph->item(i,j)->setText("Player Two");
-                graph->item(i,j)->setBackgroundColor(colorLive2);
-            }
-
-            else //Assign money
-            {
-                if(rand_start < 40)
-                {
-                    graph->setItem(i, j, new QTableWidgetItem);
-                    graph->item(i,j)->setText("Money: $10");
-                }
-                else if((rand_start >= 40) && (rand_start <70))
-                {
-                    graph->setItem(i, j, new QTableWidgetItem);
-                    graph->item(i,j)->setText("Money: $25");
-                }
-                else if((rand_start >= 70) && (rand_start < 95))
-                {
-                    graph->setItem(i, j, new QTableWidgetItem);
-                    graph->item(i,j)->setText("Money: $50");
-                }
-                else if(rand_start >= 95)
-                {
-                    graph->setItem(i, j, new QTableWidgetItem);
-                    graph->item(i,j)->setText("Money: $75");
-                }
-            }
-        }
-    }
-
+    createGraph();
     ui->notification_label->setText("Click on the help \nbutton for instructions!");
-
-
 }
 
 MainWindow::~MainWindow()
@@ -182,199 +133,11 @@ void MainWindow::on_attack_button_clicked()
 
         if(player1_hp <= 0)
         {
-            qDebug() <<"Player 2 Wins";
-            player2_win++;
-            std::string win_lab = std::to_string(player2_win);
-            ui->player2_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 2 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-
-            QMessageBox::about(this, "Win Notification", "Player 2 Won!");
-            grapher();
-
-
-
+            win2();
         }
         else if (player2_hp <= 0)
         {
-            qDebug() << "Player 1 Wins";
-            player1_win++;
-            std::string win_lab = std::to_string(player1_win);
-            ui->player1_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 1 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-            QMessageBox::about(this, "Win Notification", "Player 1 Won!");
-            grapher();
-
-
+            win1();
         }
 
         else {
@@ -390,61 +153,7 @@ void MainWindow::on_attack_button_clicked()
         std::string hp_label = std::to_string(player2_hp);
         ui->player2_hp_label->setText(QString(hp_label.c_str()));
 
-        //CPU Moves
-        if(player2_money-250 >= 0)
-        {
-            int choice_random = rand() % 100 + 1;
-            qDebug() << choice_random;
-            if(choice_random <= 33) //Upgrade HP
-            {
-                qDebug() << "CPU Upgrade HP";
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
-                std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
-            {
-                qDebug() << "CPU Upgrade PP";
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
-                std::string pp_label = std::to_string(player2_pp);
-                ui->player2_pp_label->setText(QString(pp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else //Attack
-            {
-                qDebug() << "CPU Attack";
-                player1_hp = player1_hp - player2_pp;
-                qDebug() << "Player 1 HP:";
-                qDebug() << player1_hp;
-                std::string hp_label2 = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-        }
-
-        else //Attack
-        {
-            qDebug() << "CPU Attack";
-            player1_hp = player1_hp - player2_pp;
-            qDebug() << "Player 1 HP:";
-            qDebug() << player1_hp;
-            std::string hp_label2 = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-            ui->player_turn_label->setText(QString("Player 1"));
-        }
+        cpu2_moves();
 
         option_turn++;
         std::string option_count_lab = std::to_string(option_turn);
@@ -455,200 +164,12 @@ void MainWindow::on_attack_button_clicked()
 
         if (player2_hp <= 0)
         {
-            qDebug() << "Player 1 Wins";
-            player1_win++;
-            std::string win_lab = std::to_string(player1_win);
-            ui->player1_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 1 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-            QMessageBox::about(this, "Win Notification", "Player 1 Won!");
-            grapher();
-
-
+            win1();
         }
 
         else if(player1_hp <= 0)
         {
-            qDebug() <<"Player 2 Wins";
-            player2_win++;
-            std::string win_lab = std::to_string(player2_win);
-            ui->player2_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 2 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-
-            QMessageBox::about(this, "Win Notification", "Player 2 Won!");
-            grapher();
-
-
-
+            win2();
         }
 
         else {
@@ -739,69 +260,20 @@ void MainWindow::on_upgrade_hp_button_clicked()
         }
 
         //CPU Moves
-        if(player2_money-250 >= 0)
-        {
-            int choice_random = rand() % 100 + 1;
-            qDebug() << choice_random;
-            if(choice_random <= 33) //Upgrade HP
-            {
-                qDebug() << "CPU Upgrade HP";
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
-                std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
-            {
-                qDebug() << "CPU Upgrade PP";
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
-                std::string pp_label = std::to_string(player2_pp);
-                ui->player2_pp_label->setText(QString(pp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else //Attack
-            {
-                qDebug() << "CPU Attack";
-                player1_hp = player1_hp - player2_pp;
-                qDebug() << "Player 1 HP:";
-                qDebug() << player1_hp;
-                std::string hp_label2 = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-        }
-
-        else //Attack
-        {
-            qDebug() << "CPU Attack";
-            player1_hp = player1_hp - player2_pp;
-            qDebug() << "Player 1 HP:";
-            qDebug() << player1_hp;
-            std::string hp_label2 = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-            ui->player_turn_label->setText(QString("Player 1"));
-        }
+        cpu2_moves();
 
         option_turn++;
         std::string option_count_lab = std::to_string(option_turn);
         ui->option_count_label->setText(QString(option_count_lab.c_str()));
 
         CPU::cpu_move++;
-        if(player1_hp - player2_pp <= 0)
+        if (player1_hp <= 0)
         {
-            on_attack_button_clicked();
+            win2();
+        }
+        else if(player2_hp <=0)
+        {
+            win1();
         }
     }
 
@@ -887,69 +359,20 @@ void MainWindow::on_lower_pp_button_clicked()
         }
 
         //CPU Moves
-        if(player2_money-250 >= 0)
-        {
-            int choice_random = rand() % 100 + 1;
-            qDebug() << choice_random;
-            if(choice_random <= 33) //Upgrade HP
-            {
-                qDebug() << "CPU Upgrade HP";
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
-                std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
-            {
-                qDebug() << "CPU Upgrade PP";
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
-                std::string pp_label = std::to_string(player2_pp);
-                ui->player2_pp_label->setText(QString(pp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else //Attack
-            {
-                qDebug() << "CPU Attack";
-                player1_hp = player1_hp - player2_pp;
-                qDebug() << "Player 1 HP:";
-                qDebug() << player1_hp;
-                std::string hp_label2 = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-        }
-
-        else //Attack
-        {
-            qDebug() << "CPU Attack";
-            player1_hp = player1_hp - player2_pp;
-            qDebug() << "Player 1 HP:";
-            qDebug() << player1_hp;
-            std::string hp_label2 = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-            ui->player_turn_label->setText(QString("Player 1"));
-        }
+        cpu2_moves();
 
         option_turn++;
         std::string option_count_lab = std::to_string(option_turn);
         ui->option_count_label->setText(QString(option_count_lab.c_str()));
 
         CPU::cpu_move++;
-        if(player1_hp - player2_pp <= 0)
+        if(player1_hp <=0)
         {
-            on_attack_button_clicked();
+            win2();
+        }
+        else if(player2_hp <=0)
+        {
+            win1();
         }
     }
 }
@@ -1033,76 +456,27 @@ void MainWindow::on_upgrade_pp_button_clicked()
         }
 
         //CPU Moves
-        if(player2_money-250 >= 0)
-        {
-            int choice_random = rand() % 100 + 1;
-            qDebug() << choice_random;
-            if(choice_random <= 33) //Upgrade HP
-            {
-                qDebug() << "CPU Upgrade HP";
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
-                std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
-            {
-                qDebug() << "CPU Upgrade PP";
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
-                std::string pp_label = std::to_string(player2_pp);
-                ui->player2_pp_label->setText(QString(pp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else //Attack
-            {
-                qDebug() << "CPU Attack";
-                player1_hp = player1_hp - player2_pp;
-                qDebug() << "Player 1 HP:";
-                qDebug() << player1_hp;
-                std::string hp_label2 = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-        }
-
-        else //Attack
-        {
-            qDebug() << "CPU Attack";
-            player1_hp = player1_hp - player2_pp;
-            qDebug() << "Player 1 HP:";
-            qDebug() << player1_hp;
-            std::string hp_label2 = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-            ui->player_turn_label->setText(QString("Player 1"));
-        }
+        cpu2_moves();
 
         option_turn++;
         std::string option_count_lab = std::to_string(option_turn);
         ui->option_count_label->setText(QString(option_count_lab.c_str()));
 
         CPU::cpu_move++;
-        if(player1_hp - player2_pp <= 0)
+        if(player1_hp <= 0)
         {
-            on_attack_button_clicked();
+            win2();
+        }
+        else if(player2_hp <= 0)
+        {
+            win1();
         }
     }
 }
 
 void MainWindow::on_cellButton_clicked() //Slot for user clicking on a celll
 {
-    qDebug() << "CellButton Clicked";
+    qDebug() << "Cell Button Clicked";
 }
 
 
@@ -2321,69 +1695,21 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
         }
 
         //CPU Moves
-        if(player2_money-250 >= 0)
-        {
-            int choice_random = rand() % 100 + 1;
-            qDebug() << choice_random;
-            if(choice_random <= 33) //Upgrade HP
-            {
-                qDebug() << "CPU Upgrade HP";
-                player2_money = player2_money - 250;
-                player2_hp = player2_hp + 50;
-                std::string hp_label = std::to_string(player2_hp);
-                ui->player2_hp_label->setText(QString(hp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else if((choice_random > 33) && (choice_random <= 66)) //Upgrade PP
-            {
-                qDebug() << "CPU Upgrade PP";
-                player2_money = player2_money - 250;
-                player2_pp = player2_pp + 50;
-                std::string pp_label = std::to_string(player2_pp);
-                ui->player2_pp_label->setText(QString(pp_label.c_str()));
-                std::string money_label = std::to_string(player2_money);
-                ui->player2_money_label->setText(QString(money_label.c_str()));
-                std::string option_count_lab = std::to_string(option_turn);
-                ui->option_count_label->setText(QString(option_count_lab.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-
-            else //Attack
-            {
-                qDebug() << "CPU Attack";
-                player1_hp = player1_hp - player2_pp;
-                qDebug() << "Player 1 HP:";
-                qDebug() << player1_hp;
-                std::string hp_label2 = std::to_string(player1_hp);
-                ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-                ui->player_turn_label->setText(QString("Player 1"));
-            }
-        }
-
-        else //Attack
-        {
-            qDebug() << "CPU Attack";
-            player1_hp = player1_hp - player2_pp;
-            qDebug() << "Player 1 HP:";
-            qDebug() << player1_hp;
-            std::string hp_label2 = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label2.c_str()));
-            ui->player_turn_label->setText(QString("Player 1"));
-        }
+        cpu2_moves();
 
         option_turn++;
         std::string option_count_lab = std::to_string(option_turn);
         ui->option_count_label->setText(QString(option_count_lab.c_str()));
         CPU::cpu_move++;
 
-        if(player1_hp - player2_pp <= 0)
+        if(player1_hp <= 0)
         {
-            on_attack_button_clicked();
+            win2();
+        }
+
+        else if(player2_hp <= 0)
+        {
+            win1();
         }
     }
 }
@@ -2441,198 +1767,12 @@ void MainWindow::on_step_button_clicked()
 
         if (player2_hp <= 0)
         {
-            qDebug() << "Player 1 Wins";
-            player1_win++;
-            std::string win_lab = std::to_string(player1_win);
-            ui->player1_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 1 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-            QMessageBox::about(this, "Win Notification", "Player 1 Won!");
-            grapher();
-
-
+            win1();
         }
 
         else if(player1_hp <= 0)
         {
-            qDebug() <<"Player 2 Wins";
-            player2_win++;
-            std::string win_lab = std::to_string(player2_win);
-            ui->player2_win_label->setText(QString(win_lab.c_str()));
-            ui->notification_label->setText(QString("Player 2 Won"));
-
-            //Restart Stats
-            player1_hp = 500;
-            player1_pp = 50;
-            player1_money = 500;
-
-            player2_hp = 500;
-            player2_pp = 50;
-            player2_money = 500;
-            option_turn = 0;
-
-            player1_row = 5;
-            player1_col = 0;
-            player2_row = 0;
-            player2_col = 5;
-
-            QColor colorLive1(Qt::yellow);
-            QColor colorLive2(Qt::red);
-
-            //Fill in Column
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < column; j++)
-                {
-                    int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
-                    if((i == 5) && (j == 0)) //Assign player 1
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player One");
-                        graph->item(i,j)->setBackgroundColor(colorLive1);
-                    }
-
-                    else if((i == 0) && (j == 5)) //Assign player 2
-                    {
-                        graph->setItem(i, j, new QTableWidgetItem);
-                        graph->item(i,j)->setText("Player Two");
-                        graph->item(i,j)->setBackgroundColor(colorLive2);
-                    }
-
-                    else //Assign money
-                    {
-                        if(rand_start < 40)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $10");
-                        }
-                        else if((rand_start >= 40) && (rand_start <70))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $25");
-                        }
-                        else if((rand_start >= 70) && (rand_start < 95))
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $50");
-                        }
-                        else if(rand_start >= 95)
-                        {
-                            graph->setItem(i, j, new QTableWidgetItem);
-                            graph->item(i,j)->setText("Money: $75");
-                        }
-                    }
-                }
-            }
-
-            //Update Labels
-            ui->player_turn_label->setText(QString("Player 1"));
-            std::string option_count_lab = std::to_string(option_turn);
-            ui->option_count_label->setText(QString(option_count_lab.c_str()));
-
-            //Player 1 Stats Reset
-            std::string hp_label = std::to_string(player1_hp);
-            ui->player1_hp_label->setText(QString(hp_label.c_str()));
-            std::string money_label = std::to_string(player1_money);
-            ui->player1_money_label->setText(QString(money_label.c_str()));
-            std::string pp_label = std::to_string(player1_pp);
-            ui->player1_pp_label->setText(QString(pp_label.c_str()));
-
-            //Player 2 Stats Reset
-            std::string hp_label2 = std::to_string(player2_hp);
-            ui->player2_hp_label->setText(QString(hp_label2.c_str()));
-            std::string money_label2 = std::to_string(player2_money);
-            ui->player2_money_label->setText(QString(money_label2.c_str()));
-            std::string pp_label2 = std::to_string(player2_pp);
-            ui->player2_pp_label->setText(QString(pp_label2.c_str()));
-
-            QMessageBox::about(this, "Win Notification", "Player 2 Won!");
-            grapher();
-
+            win2();
         }
 
     }
@@ -2645,6 +1785,58 @@ void MainWindow::on_step_button_clicked()
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+}
+
+
+void MainWindow::createGraph()
+{
+    QColor colorLive1(Qt::yellow);
+    QColor colorLive2(Qt::red);
+    //Fill in Column
+    for(int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < column; j++)
+        {
+            int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
+            if((i == 5) && (j == 0)) //Assign player 1
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player One");
+                graph->item(i,j)->setBackgroundColor(colorLive1);
+            }
+
+            else if((i == 0) && (j == 5)) //Assign player 2
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player Two");
+                graph->item(i,j)->setBackgroundColor(colorLive2);
+            }
+
+            else //Assign money
+            {
+                if(rand_start < 40)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $10");
+                }
+                else if((rand_start >= 40) && (rand_start <70))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $25");
+                }
+                else if((rand_start >= 70) && (rand_start < 95))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $50");
+                }
+                else if(rand_start >= 95)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $75");
+                }
+            }
+        }
+    }
 }
 
 void MainWindow::grapher()
@@ -2842,3 +2034,206 @@ void MainWindow::cpu2_moves()
     }
 }
 
+void MainWindow::win1()
+{
+    qDebug() << "Player 1 Wins";
+    player1_win++;
+    std::string win_lab = std::to_string(player1_win);
+    ui->player1_win_label->setText(QString(win_lab.c_str()));
+    ui->notification_label->setText(QString("Player 1 Won"));
+
+    //Restart Stats
+    player1_hp = 500;
+    player1_pp = 50;
+    player1_money = 500;
+
+    player2_hp = 500;
+    player2_pp = 50;
+    player2_money = 500;
+    option_turn = 0;
+
+    player1_row = 5;
+    player1_col = 0;
+    player2_row = 0;
+    player2_col = 5;
+
+    QColor colorLive1(Qt::yellow);
+    QColor colorLive2(Qt::red);
+
+    //Fill in Column
+    for(int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < column; j++)
+        {
+            int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
+            if((i == 5) && (j == 0)) //Assign player 1
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player One");
+                graph->item(i,j)->setBackgroundColor(colorLive1);
+            }
+
+            else if((i == 0) && (j == 5)) //Assign player 2
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player Two");
+                graph->item(i,j)->setBackgroundColor(colorLive2);
+            }
+
+            else //Assign money
+            {
+                if(rand_start < 40)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $10");
+                }
+                else if((rand_start >= 40) && (rand_start <70))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $25");
+                }
+                else if((rand_start >= 70) && (rand_start < 95))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $50");
+                }
+                else if(rand_start >= 95)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $75");
+                }
+            }
+        }
+    }
+
+    //Update Labels
+    ui->player_turn_label->setText(QString("Player 1"));
+    std::string option_count_lab = std::to_string(option_turn);
+    ui->option_count_label->setText(QString(option_count_lab.c_str()));
+
+    //Player 1 Stats Reset
+    std::string hp_label = std::to_string(player1_hp);
+    ui->player1_hp_label->setText(QString(hp_label.c_str()));
+    std::string money_label = std::to_string(player1_money);
+    ui->player1_money_label->setText(QString(money_label.c_str()));
+    std::string pp_label = std::to_string(player1_pp);
+    ui->player1_pp_label->setText(QString(pp_label.c_str()));
+
+    //Player 2 Stats Reset
+    std::string hp_label2 = std::to_string(player2_hp);
+    ui->player2_hp_label->setText(QString(hp_label2.c_str()));
+    std::string money_label2 = std::to_string(player2_money);
+    ui->player2_money_label->setText(QString(money_label2.c_str()));
+    std::string pp_label2 = std::to_string(player2_pp);
+    ui->player2_pp_label->setText(QString(pp_label2.c_str()));
+    QMessageBox::about(this, "Win Notification", "Player 1 Won!");
+    grapher();
+}
+
+void MainWindow::win2()
+{
+    qDebug() <<"Player 2 Wins";
+    player2_win++;
+    std::string win_lab = std::to_string(player2_win);
+    ui->player2_win_label->setText(QString(win_lab.c_str()));
+    ui->notification_label->setText(QString("Player 2 Won"));
+
+    //Restart Stats
+    player1_hp = 500;
+    player1_pp = 50;
+    player1_money = 500;
+
+    player2_hp = 500;
+    player2_pp = 50;
+    player2_money = 500;
+    option_turn = 0;
+
+    player1_row = 5;
+    player1_col = 0;
+    player2_row = 0;
+    player2_col = 5;
+
+    QColor colorLive1(Qt::yellow);
+    QColor colorLive2(Qt::red);
+
+    //Fill in Column
+    for(int i = 0; i < row; i++)
+    {
+        for(int j = 0; j < column; j++)
+        {
+            int rand_start = rand() % 100 + 1; //Generate random number to determine how much money each cell will contain
+            if((i == 5) && (j == 0)) //Assign player 1
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player One");
+                graph->item(i,j)->setBackgroundColor(colorLive1);
+            }
+
+            else if((i == 0) && (j == 5)) //Assign player 2
+            {
+                graph->setItem(i, j, new QTableWidgetItem);
+                graph->item(i,j)->setText("Player Two");
+                graph->item(i,j)->setBackgroundColor(colorLive2);
+            }
+
+            else //Assign money
+            {
+                if(rand_start < 40)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $10");
+                }
+                else if((rand_start >= 40) && (rand_start <70))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $25");
+                }
+                else if((rand_start >= 70) && (rand_start < 95))
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $50");
+                }
+                else if(rand_start >= 95)
+                {
+                    graph->setItem(i, j, new QTableWidgetItem);
+                    graph->item(i,j)->setText("Money: $75");
+                }
+            }
+        }
+    }
+
+    //Update Labels
+    ui->player_turn_label->setText(QString("Player 1"));
+    std::string option_count_lab = std::to_string(option_turn);
+    ui->option_count_label->setText(QString(option_count_lab.c_str()));
+
+    //Player 1 Stats Reset
+    std::string hp_label = std::to_string(player1_hp);
+    ui->player1_hp_label->setText(QString(hp_label.c_str()));
+    std::string money_label = std::to_string(player1_money);
+    ui->player1_money_label->setText(QString(money_label.c_str()));
+    std::string pp_label = std::to_string(player1_pp);
+    ui->player1_pp_label->setText(QString(pp_label.c_str()));
+
+    //Player 2 Stats Reset
+    std::string hp_label2 = std::to_string(player2_hp);
+    ui->player2_hp_label->setText(QString(hp_label2.c_str()));
+    std::string money_label2 = std::to_string(player2_money);
+    ui->player2_money_label->setText(QString(money_label2.c_str()));
+    std::string pp_label2 = std::to_string(player2_pp);
+    ui->player2_pp_label->setText(QString(pp_label2.c_str()));
+
+    QMessageBox::about(this, "Win Notification", "Player 2 Won!");
+    grapher();
+}
+
+
+void Player1::test()
+{
+    qDebug() << "Test 1";
+}
+
+void Player2::test()
+{
+    qDebug() << "Test 2";
+}

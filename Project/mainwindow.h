@@ -49,11 +49,15 @@ public:
     static int player2_row;
     static int player2_col;
 
-    void grapher();
+    void createGraph();
+    void grapher(); //Win Graph
     void player1_moneyMove(int row, int column);
     void player2_moneyMove(int row, int column);
+    void win1();
+    void win2();
     void cpu1_moves();
     void cpu2_moves();
+
     virtual void paintEvent(QPaintEvent *event);
 
 private slots:
@@ -91,9 +95,25 @@ private:
     //QBarSet *set;
     //QBarSeries *series;
 
-
-
-
 };
+
+class Player1 : public MainWindow
+{
+public:
+    void test();
+    void player1_win_func();
+    void player1_moneyMove();
+    void cpu_move1();
+};
+
+class Player2 : public MainWindow
+{
+public:
+    void test();
+    void player2_win_func();
+    void player2_moneyMove();
+    void cpu_move2();
+};
+
 
 #endif // MAINWINDOW_H
