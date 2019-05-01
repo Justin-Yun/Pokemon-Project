@@ -26,7 +26,7 @@
 #include <QPainter>
 
 
-
+//Initialize static variables
 int MainWindow::column = 6;
 int MainWindow::row = 6;
 int MainWindow::player_mode = 0;
@@ -1191,32 +1191,32 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
                     ui->notification_label->setText(QString("Invalid Move."));
 
                 }
-                else if(row == (player2_row) && (column == (player2_col-1))) //Diagonal
+                else if(row == (player2_row) && (column == (player2_col-1))) //Left
                 {
                     player2_moneyMove(row, column);
 
 
                 }
-                else if(row == (player2_row-1) && (column == (player2_col-1))) //Diagonal
+                else if(row == (player2_row-1) && (column == (player2_col-1))) //Top Left
                 {
                     player2_moneyMove(row, column);
 
 
                 }
-                else if(row == (player2_row+1) && (column == (player2_col-1))) //Diagonal
+                else if(row == (player2_row+1) && (column == (player2_col-1))) //Bottom Left
                 {
                     player2_moneyMove(row, column);
 
 
                 }
 
-                else if(row == (player2_row-1) && (column == (player2_col))) //Diagonal
+                else if(row == (player2_row-1) && (column == (player2_col))) //Up
                 {
                     player2_moneyMove(row, column);
 
 
                 }
-                else if(row == (player2_row+1) && (column == (player2_col))) //Diagonal
+                else if(row == (player2_row+1) && (column == (player2_col))) //Down
                 {
                     player2_moneyMove(row, column);
 
@@ -1236,54 +1236,54 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
                     ui->notification_label->setText(QString("Invalid Move."));
 
                 }
-                else if(row == (player2_row+1) && (column == (player2_col))) //Diagonal
+                else if(row == (player2_row+1) && (column == (player2_col))) //Down
                 {
                     player2_moneyMove(row, column);
 
 
                 }
-                else if(row == (player2_row-1) && (column == (player2_col))) //Diagonal
-                {
-                    player2_moneyMove(row, column);
-
-
-                }
-
-                else if(row == (player2_row) && (column == (player2_col+1))) //Diagonal
+                else if(row == (player2_row-1) && (column == (player2_col))) //Up
                 {
                     player2_moneyMove(row, column);
 
 
                 }
 
-                else if(row == (player2_row) && (column == (player2_col-1))) //Diagonal
-                {
-                    player2_moneyMove(row, column);
-
-                }
-
-                else if(row == (player2_row+1) && (column == (player2_col+1))) //Diagonal
+                else if(row == (player2_row) && (column == (player2_col+1))) //Right
                 {
                     player2_moneyMove(row, column);
 
 
                 }
 
-                else if(row == (player2_row-1) && (column == (player2_col-1))) //Diagonal
+                else if(row == (player2_row) && (column == (player2_col-1))) //Left
+                {
+                    player2_moneyMove(row, column);
+
+                }
+
+                else if(row == (player2_row+1) && (column == (player2_col+1))) //Bottom Right
                 {
                     player2_moneyMove(row, column);
 
 
                 }
 
-                else if(row == (player2_row-1) && (column == (player2_col+1))) //Diagonal
+                else if(row == (player2_row-1) && (column == (player2_col-1))) //Top Left
                 {
                     player2_moneyMove(row, column);
 
 
                 }
 
-                else if(row == (player2_row+1) && (column == (player2_col-1))) //Diagonal
+                else if(row == (player2_row-1) && (column == (player2_col+1))) //Top Right
+                {
+                    player2_moneyMove(row, column);
+
+
+                }
+
+                else if(row == (player2_row+1) && (column == (player2_col-1))) //Bottom Left
                 {
                     player2_moneyMove(row, column);
 
@@ -1455,32 +1455,32 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
 
             }
 
-            else if(row == (player1_row) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row) && (column == (player1_col+1))) //Right
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row-1) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col+1))) //Top Right
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row+1) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row+1) && (column == (player1_col+1))) //Bottom Right
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row-1) && (column == (player1_col))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col))) //Up
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row+1) && (column == (player1_col))) //Diagonal
+            else if(row == (player1_row+1) && (column == (player1_col))) //Down
             {
                 player1_moneyMove(row, column);
 
@@ -1591,32 +1591,32 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
                 ui->notification_label->setText(QString("Invalid Move."));
 
             }
-            else if(row == (player1_row) && (column == (player1_col-1))) //Diagonal
+            else if(row == (player1_row) && (column == (player1_col-1))) //Left
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row-1) && (column == (player1_col-1))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col-1))) //Top Left
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row+1) && (column == (player1_col-1))) //Diagonal
+            else if(row == (player1_row+1) && (column == (player1_col-1))) //Bottom Left
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row-1) && (column == (player1_col))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col))) //Up
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row+1) && (column == (player1_col))) //Diagonal
+            else if(row == (player1_row+1) && (column == (player1_col))) //Down
             {
                 player1_moneyMove(row, column);
 
@@ -1635,54 +1635,54 @@ void MainWindow::on_cellWidget_cellClicked(int row, int column) //Signal for use
                 ui->notification_label->setText(QString("Invalid Move."));
 
             }
-            else if(row == (player1_row+1) && (column == (player1_col))) //Diagonal
+            else if(row == (player1_row+1) && (column == (player1_col))) //Down
             {
                 player1_moneyMove(row, column);
 
 
             }
-            else if(row == (player1_row-1) && (column == (player1_col))) //Diagonal
-            {
-                player1_moneyMove(row, column);
-
-
-            }
-
-            else if(row == (player1_row) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col))) //Up
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row) && (column == (player1_col-1))) //Diagonal
-            {
-                player1_moneyMove(row, column);
-
-            }
-
-            else if(row == (player1_row+1) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row) && (column == (player1_col+1))) //Right
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row-1) && (column == (player1_col-1))) //Diagonal
+            else if(row == (player1_row) && (column == (player1_col-1))) //Left
+            {
+                player1_moneyMove(row, column);
+
+            }
+
+            else if(row == (player1_row+1) && (column == (player1_col+1))) //Bottom Right
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row-1) && (column == (player1_col+1))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col-1))) //Top Left
             {
                 player1_moneyMove(row, column);
 
 
             }
 
-            else if(row == (player1_row+1) && (column == (player1_col-1))) //Diagonal
+            else if(row == (player1_row-1) && (column == (player1_col+1))) //Top Right
+            {
+                player1_moneyMove(row, column);
+
+
+            }
+
+            else if(row == (player1_row+1) && (column == (player1_col-1))) //Bottom Left
             {
                 player1_moneyMove(row, column);
 
