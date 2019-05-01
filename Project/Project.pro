@@ -4,8 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT  += core gui
 QT += multimedia
+Qt += charts
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -31,7 +32,8 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    function.h
 
 FORMS += \
         mainwindow.ui

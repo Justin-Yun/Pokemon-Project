@@ -8,6 +8,10 @@
 #include <QGraphicsView>
 #include <QPushButton>
 #include <QTableWidget>
+#include <QPainter>
+
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -27,6 +31,7 @@ public:
 
     static int option_turn;
 
+
     //stats for players
     static int player1_hp;
     static int player2_hp;
@@ -37,11 +42,19 @@ public:
     static int player1_win;
     static int player2_win;
 
+
     //Position for both players
     static int player1_row;
     static int player1_col;
     static int player2_row;
     static int player2_col;
+
+    void grapher();
+    void player1_moneyMove(int row, int column);
+    void player2_moneyMove(int row, int column);
+    void cpu1_moves();
+    void cpu2_moves();
+    virtual void paintEvent(QPaintEvent *event);
 
 private slots:
 
@@ -64,37 +77,23 @@ private slots:
 
     void on_player1_mode_button_clicked();
 
+    void on_help_button_clicked();
+
+    void on_step_button_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTableWidget *graph;
     QTimer *timer;
     QGraphicsScene *scene;
     QGraphicsRectItem *rectangle;
+    QGraphicsRectItem *rectangle2;
+    //QBarSet *set;
+    //QBarSeries *series;
 
 
 
-};
 
-class BarGraph : public QWidget
-{
-    Q_OBJECT // ugly Qt hack
-    std::vector<int> values; // the set of data to display
-    std::vector<QString> label; // the labels
-    int max_val,min_val,barwidth,margin = 10;
-    std::vector<QRect> bars; // the actual bars
-    bool show_tooltip=false,show_label=true,cut_min_value=false;
-    QBrush brush;
-public:
-    explicit BarGraph(QWidget *parent = 0);
-    void paintBargraph(QPainter& painter);
-    //setter + getter
-
-private://events
-    void paintEvent(QPaintEvent *event)override;
-    void mouseMoveEvent(QMouseEvent *event)override;
-    void resizeEvent(QResizeEvent *event)override;
-    void recalcBasicValues();
-    QString getLabel(size_t i);
 };
 
 #endif // MAINWINDOW_H

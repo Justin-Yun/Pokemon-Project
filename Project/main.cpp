@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "player_stats.h"
+#include "function.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
